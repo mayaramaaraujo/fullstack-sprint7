@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findAllByOrderByName();
+//    List<Product> findAllByOrderByName();
 
     @Query("select new br.com.rchlo.store.dto.ProductByColorDto(p.color, count(p)) from Product p group by p.color")
     List<ProductByColorDto> productsByColor();
