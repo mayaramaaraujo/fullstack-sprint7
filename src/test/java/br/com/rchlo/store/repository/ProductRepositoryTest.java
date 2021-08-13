@@ -4,6 +4,7 @@ package br.com.rchlo.store.repository;
 import br.com.rchlo.store.domain.Color;
 import br.com.rchlo.store.domain.Product;
 
+import br.com.rchlo.store.dto.ProductByColorDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -70,6 +71,44 @@ class ProductRepositoryTest {
     Product secondProduct = products.get(1);
     assertEquals(1L, secondProduct.getCode());
     assertEquals("Regata Infantil Mario Bros Branco", secondProduct.getName());
+  }
+
+  @Test
+  void shouldReturnReportAccordingToColor() {
+    entityManager.persist(new Product(1L,
+            "Regata Infantil Mario Bros Branco",
+            "A Regata Infantil Mario Bros Branco é confeccionada em fibra natural. Aposte!",
+            "regata-infantil-mario-bros-branco-14040174_sku",
+            "Nintendo",
+            new BigDecimal("29.90"),
+            null,
+            Color.BLUE,
+            98));
+    entityManager.persist(new Product(7L,
+            "Jaqueta Puffer Juvenil Com Capuz Super Mario Branco",
+            "A Jaqueta Puffer Juvenil Com Capuz Super Mario Branco é confeccionada em material sintético.",
+            "jaqueta-puffer-juvenil-com-capuz-super-mario-branco-13834193_sku",
+            "Nintendo",
+            new BigDecimal("199.90"),
+            null,
+            Color.WHITE,
+            147));
+    entityManager.persist(new Product(2L,
+            "Jaqueta Puffer Juvenil Com Capuz Super Mario Branco",
+            "A Jaqueta Puffer Juvenil Com Capuz Super Mario Branco é confeccionada em material sintético.",
+            "jaqueta-puffer-juvenil-com-capuz-super-mario-branco-13834193_sku",
+            "Nintendo",
+            new BigDecimal("199.90"),
+            null,
+            Color.WHITE,
+            147));
+
+    List<ProductByColorDto> report = productRepository.productsByColor();
+    assertEquals("Azul", report.get(0).getColor());
+    assertEquals("Branca",report.get(1).getColor());
+
+    assertEquals(1, report.get(0).getAmount());
+    assertEquals(2, report.get(1).getAmount());
   }
 
 }
