@@ -1,7 +1,5 @@
 package br.com.rchlo.store.dto;
 
-import br.com.rchlo.store.domain.Product;
-
 import java.math.BigDecimal;
 
 public class ProductDto {
