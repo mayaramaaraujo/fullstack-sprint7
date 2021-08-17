@@ -1,10 +1,9 @@
 package br.com.rchlo.store.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -29,13 +28,20 @@ public class Product {
 
     private Integer weightInGrams;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductImage> productImage = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
 //    private List<Size> availableSizes;
 
     /** @deprecated */
     protected Product() {
     }
 
-    public Product(Long code, String name, String description, String slug, String brand, BigDecimal price, BigDecimal discount, Color color, Integer weightInGrams) {
+    public Product(Long code, String name, String description, String slug, String brand, BigDecimal price, BigDecimal discount, Color color, Integer weightInGrams, List<ProductImage> productImage, Category category) {
         this.code = code;
         this.name = name;
         this.description = description;
@@ -45,6 +51,8 @@ public class Product {
         this.discount = discount;
         this.color = color;
         this.weightInGrams = weightInGrams;
+        this.productImage = productImage;
+        this.category = category;
     }
 
     public Long getCode() {
@@ -57,6 +65,11 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+
+    public Category getCategory() {
+        return category;
     }
 
     public String getSlug() {
@@ -81,5 +94,9 @@ public class Product {
 
     public Integer getWeightInGrams() {
         return weightInGrams;
+    }
+
+    public List<ProductImage> getProductImage() {
+        return productImage;
     }
 }
