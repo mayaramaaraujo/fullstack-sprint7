@@ -7,6 +7,15 @@ import java.math.BigDecimal;
 @Table(name = "payment")
 public class Payment {
 
+    public Payment(BigDecimal value, PaymentStatus status, Card card) {
+        this.value = value;
+        this.status = status;
+        this.card = card;
+    }
+
+    public Payment() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +32,23 @@ public class Payment {
     @AttributeOverride(name = "verificationCode", column = @Column(name = "card_verification_code"))
     private Card card;
 
+    public Long getId() {
+        return id;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public PaymentStatus getStatus() {
+        return status;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
 }
